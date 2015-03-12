@@ -20,12 +20,15 @@ pin = 4 ## Assuming the DHT11 sensor is connected to GPIO pin number 4
 ### Change channel name and resource names as suits you
 temp_resource   = Resource(bbt, 'RaspberryPi', 'temperature')
 humid_resource  = Resource(bbt, 'RaspberryPi', 'humidity')
- 
+def convertCtoF(degreesC):
+	degreesF =  degreesC * 9/5 + 32
+	return degreesF
+	
 def run():
   while True:
     ### Assume 
     humidity, temperature = Adafruit_DHT.read_retry( Adafruit_DHT.DHT11, pin )
-    temperatureF = temperature * 9/5 + 32
+    temperatureF = convertCtoF(temperature)
     if humidity is not None and temperature is not None:
         print "Temp={0:f}*F  Humidity={1:f}%".format(temperatureF, humidity)
         try:
